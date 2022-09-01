@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
 const connectToDatabase = require('./config/connection');
-const routes = require('./routes');
+const typeDefs = require('./typeDefs');
+const resolvers = require('./resolvers');
+const { authMiddleware } = require('./context/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,9 +21,14 @@ app.use(routes);
 const init = async () => {
   try {
     await connectToDatabase();
-    app.listen(PORT, () => {
-      console.log(`Server listening on https://localhost:${PORT} 🚀`);
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      context: authMiddleware,
     });
+
+    const { url } = await server.listen(PORT);
+    console.log(`Server running on ${url}`);
   } catch (err) {
     console.log(`Failed to initiate server || ${err.message}`);
   }
