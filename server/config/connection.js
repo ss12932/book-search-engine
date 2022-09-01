@@ -1,10 +1,28 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/googlebooks', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+const connectToDatabase = async () => {
+  try {
+    const connectionString =
+      process.env.MONGODB_URI ||
+      `mongodb://127.0.0.1:27017/${process.env.MONGODB_NAME}`;
 
-module.exports = mongoose.connection;
+    const options = {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    };
+
+    await mongoose.connect(connectionString, options);
+
+    console.log(
+      `Successfully connected to the database || ${process.env.MONGODB_NAME}`,
+    );
+  } catch (err) {
+    console.log(`Failed to connect to the database || ${err.message}`);
+    throw new Error('Failed to connect to the database');
+  }
+};
+
+module.exports = connectToDatabase;

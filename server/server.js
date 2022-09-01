@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const db = require('./config/connection');
+const connectToDatabase = require('./config/connection');
 const routes = require('./routes');
 
 const app = express();
@@ -16,6 +16,15 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(routes);
 
-db.once('open', () => {
-  app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
-});
+const init = async () => {
+  try {
+    await connectToDatabase();
+    app.listen(PORT, () => {
+      console.log(`Server listening on https://localhost:${PORT} 🚀`);
+    });
+  } catch (err) {
+    console.log(`Failed to initiate server || ${err.message}`);
+  }
+};
+
+init();
