@@ -28,6 +28,11 @@ const typeDefs = gql`
     user: User!
   }
 
+  type AuthResponse {
+    token: String!
+    user: User
+  }
+
   input SignupInput {
     username: String!
     email: String!
@@ -49,12 +54,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User
+    me: User!
   }
 
   type Mutation {
-    signup(input: SignupInput!): SignupSuccess
-    login(input: LoginInput!): LoginSuccess
+    signup(input: SignupInput!): AuthResponse
+    login(input: LoginInput!): AuthResponse
     saveBook(input: SaveBookInput!): User!
     removeBook(bookId: String!): User!
   }
