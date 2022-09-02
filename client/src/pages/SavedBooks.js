@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Jumbotron,
   Container,
@@ -27,14 +27,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
+      await removeBook({ variables: { bookId } });
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -43,7 +36,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (!loading) {
     return <h2>LOADING...</h2>;
   }
 
