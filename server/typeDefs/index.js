@@ -7,7 +7,7 @@ const typeDefs = gql`
     description: String!
     image: String
     link: String
-    title: string!
+    title: String!
   }
 
   type User {
@@ -64,3 +64,5 @@ const typeDefs = gql`
     removeBook(bookId: String!): User!
   }
 `;
+
+module.exports = typeDefs;
