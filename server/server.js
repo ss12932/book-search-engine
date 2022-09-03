@@ -31,6 +31,10 @@ const init = async () => {
   try {
     await connectToDatabase();
 
+    await server.start();
+
+    server.applyMiddleware({ app });
+
     const { url } = await server.listen(PORT);
     console.log(`Server running on ${url}`);
   } catch (err) {
