@@ -1,5 +1,5 @@
 const express = require('express');
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const connectToDatabase = require('./config/connection');
 const typeDefs = require('./typeDefs');
@@ -30,15 +30,17 @@ app.get('/', (req, res) => {
 const init = async (typeDefs, resolvers) => {
   try {
     await connectToDatabase();
-
     await server.start();
-
     server.applyMiddleware({ app });
 
-    const { url } = await server.listen(PORT);
-    console.log(`Server running on ${url}`);
+    app.listen(PORT, () => {
+      console.log(`API server listening on http://localhost:${PORT}`),
+        console.log(
+          `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`,
+        );
+    });
   } catch (err) {
-    console.log(`Failed to initiate server || ${err.message}`);
+    console.log(`Failed to initiate API server || ${err.message}`);
   }
 };
 
