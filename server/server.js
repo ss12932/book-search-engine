@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/'));
 });
 
-const init = async () => {
+const init = async (typeDefs, resolvers) => {
   try {
     await connectToDatabase();
 
@@ -42,4 +42,4 @@ const init = async () => {
   }
 };
 
-init();
+init(typeDefs, resolvers);
