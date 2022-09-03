@@ -14,11 +14,11 @@
 
 ## Description
 
-A text editor web progressive application that runs in the browser, on and offline, using indexedDB.
+A fully functioning Google Books API search engine, originally built with a RESTful API and refactored to using GraphQL API built with APollo server.
 
 ## Deployed Link
 
-https://nameless-coast-50613.herokuapp.com/
+https://pure-woodland-19221.herokuapp.com/
 
 ## Github Repository Link
 
